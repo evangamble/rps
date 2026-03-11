@@ -1,6 +1,7 @@
 
 let humanScore = 0;
 let computerScore = 0;
+const buttons = document.querySelectorAll("button")
 
 
 function getComputerChoice() {
@@ -15,42 +16,42 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    choice = prompt("Rock, Paper, or Scissors?").toLowerCase();
-    return choice;
-}
+function playRound(humanChoice) {
+    computerChoice = getComputerChoice();
 
-function playRound(humanChoice, computerChoice) {
     if (humanChoice === computerChoice) {
         console.log(`You Tied.`);
     } else if ((humanChoice === "rock" && computerChoice === "scissors") || (humanChoice === "paper" && computerChoice === "rock") 
         || (humanChoice === "scissors" && computerChoice === "paper")) {
             console.log(`You Win. ${humanChoice} beats ${computerChoice}`);
-            humanScore++
+            humanScore++;
+            updateGame();
     } else {
         console.log(`You Lose. ${computerChoice} beats ${humanChoice}`);
         computerScore++
+        updateGame()
     }
 
 }
 
-function playGame() {
+buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        playRound(e.target.id)
+    });
+});
 
-    for (i = 0; i < 5; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
+function updateGame() {
+    document.querySelector("#hscore").textContent = humanScore;
+    document.querySelector("#cscore").textContent = computerScore;
+
+    if (computerScore >= 5 || humanScore >= 5) {
+        const winner = document.createElement("h3");
+        winner.id = "winner";
+        winner.textContent = (computerScore > humanScore) ?  `Computer Wins.` : `Human Wins.`
+        document.body.appendChild(winner);
     }
-
-    if (computerScore > humanScore) {
-        console.log(`You Lose. Final score: ${humanScore} to ${computerScore}`);
-    } else if (computerScore < humanScore) {
-        console.log(`You Win. Final score: ${humanScore} to ${computerScore}`);
-    } else {
-        console.log(`You Tied. Final score: ${humanScore} to ${computerScore}`);
-    }
-
 }
 
 
-playGame()
+
+
