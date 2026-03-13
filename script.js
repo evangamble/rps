@@ -2,6 +2,10 @@
 let humanScore = 0;
 let computerScore = 0;
 const buttons = document.querySelectorAll("button")
+const hscore = document.querySelector("#hscore")
+const cscore = document.querySelector("#cscore")
+const winner = document.createElement("h3");
+
 
 
 function getComputerChoice() {
@@ -40,16 +44,23 @@ buttons.forEach((button) => {
     });
 });
 
+function reset(){
+    humanScore= 0;
+    computerScore = 0;
+
+}
+
 function updateGame() {
-    document.querySelector("#hscore").textContent = humanScore;
-    document.querySelector("#cscore").textContent = computerScore;
+    hscore.textContent = humanScore;
+    cscore.textContent = computerScore;
 
     if (computerScore >= 5 || humanScore >= 5) {
-        const winner = document.createElement("h3");
-        winner.id = "winner";
         winner.textContent = (computerScore > humanScore) ?  `Computer Wins.` : `Human Wins.`
         document.body.appendChild(winner);
+        reset();
     }
+    
+    
 }
 
 
